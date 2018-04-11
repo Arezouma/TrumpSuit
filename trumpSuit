@@ -1,0 +1,136 @@
+
+# A Program to create a game for Trump Suit
+from Card import Card
+from Deck import *
+
+
+class TrumpSuit():
+    """ A TrumpSuit represents a card's game. A game has two players
+    each picks a card from a shuffle deck and compare it to the first chosen
+    called trumpSuit. If picked card is greater than the trumpSuit the player wins both."""
+    def __init__(self):
+        self.deck = Deck()
+        self.deck.shuffle()
+        self.scoreA = 0
+        self.scoreB = 0
+        self.winsA = 0
+        self.winsB = 0
+        self.isOver = False
+        self.trumpSuit = None    
+    def play(self,playerA,playerB):
+        """Play the game to completion"""
+        turn = 0
+        self.playerA = playerA
+        self.playerB = playerB
+
+        while self.deck.size()> 1:
+
+            aGame = self.play_One_Turn(playerA,playerB)
+            turn += 1
+    
+    def choiceTS(self): #deals one card from the deck
+        choice = 0
+        while self.deck.size() > 1:
+            if not choice:
+                self.deck.shuffle()
+                choice = self.deck.deal()
+            return choice
+
+
+    
+    def isOver(self):
+        """Return game is over. One of the players has won"""
+        if self.deck.size() == 0:
+                
+             print("-----Game is Over") 
+             self.isOver = False
+        return
+    def getScores(self):
+        """ Return the current scores of playerA and playerB"""
+        
+        return self.scoreA,self.scoreB
+    
+        
+    def play_One_Turn(self,playerA,playerB):
+        
+        card = TrumpSuit.choiceTS(self) # Choice for trump suit
+        trumpSuit = card
+       
+        print("The chosen trumpSuit is ",trumpSuit)
+
+        
+        if self.deck.size() > 1:
+            
+
+            self.playerA_c = TrumpSuit.choiceTS(self)  # player A pick a card
+            print('PlayerA picks',self.playerA_c)
+            self.playerB_c = TrumpSuit.choiceTS(self)  # player B pick a card
+            print('PlayerB picks',self.playerB_c)
+            a = self.playerA_c
+            b = self.playerB_c
+            
+            if a.suitName() == b.suitName() and a.rankName()> b.rankName():
+                print('A wins a pick')
+                self.scoreA += 2
+                self.winsA += 1
+                
+            elif a.suitName() == b.suitName() and b.rankName()> a.rankName():
+                print('B wins a pick')
+                self.scoreB += 2
+                self.winsB += 1
+
+            elif a.suitName() == trumpSuit.suitName() and a.suitName()!= b.suitName():
+                print('A wins a pick')
+                self.scoreA += 2
+                self.winsA += 1 
+            elif b.suitName() == trumpSuit.suitName() and b.suitName()!= a.suitName():
+                print('B wins a pick')
+                self.scoreB += 2
+                self.winsB += 1
+            else:
+                print("None wins")
+            print(self.scoreA,self.scoreB)
+                
+    
+
+class Result:
+    def __init__(self,a,b,c,d):
+       
+        self.scoreA = a 
+        self.scoreB = b 
+        self.winsA  = c 
+        self.winsB  = d 
+    
+    def announceVictory(self):
+        """Determies the outcome of aGame and announce the winner"""
+
+        if self.scoreA > self.scoreB :
+            print("\n\nPlayerA won with",self.scoreA," score with ",self.winsA,"wins")
+
+        elif self.scoreB > self.scoreA :
+            print("\n\nPlayerB won with",self.scoreB," score with ",self.winsB,"wins")
+        else:
+            print("There is a tigh between both players. None won")
+                
+
+
+def main():
+    d = Deck()
+    g = TrumpSuit()
+    g.play('A','B')
+    r = Result(g.scoreA,g.scoreB,g.winsA,g.winsB)
+    r.announceVictory()
+    
+
+main()
+
+
+
+
+
+    
+    
+    
+        
+        
+        
